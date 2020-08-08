@@ -1,16 +1,25 @@
-import React from "react";
-import { Route } from 'react-router';
-import Layout from './components/Layout';
-import Counter from './components/Counter';
+import React, { Component, useState } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { MDBContainer } from "mdbreact";
+import NavigationBar from "./components/NavigationBar/NavigationBar";
 import Quiz from "./components/Quiz/Quiz";
-import Result from "./components/Result/Result"
-import './custom.css'
 
+const AppLayout = () => {
+  return (
+    <div>
+      <header>
+        <Router>
+          <NavigationBar/>
+        </Router>
+      </header>
 
-export default () => (
-    <Layout>
-        <Route exact path='/' component={Quiz} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/result' component={Result} />
-    </Layout>
-);
+      <main className="p-4">
+        <MDBContainer className="mt-5" fluid>
+          <Quiz/>
+        </MDBContainer>
+      </main>
+    </div>
+  );
+};
+
+export default AppLayout;

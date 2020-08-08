@@ -1,9 +1,17 @@
 import React from "react";
 import questionsData from "../../questionsData";
 import QuestionBoard from "../QuestionBoard/QuestionBoard";
-import QuestionPallete from "../QuestionPallete/QuestionPallete";
 import QuizTimer from "../QuizTimer/QuizTimer";
-import { Container, Col, Row } from "reactstrap";
+import QuestionPallete from "../QuestionPallete/QuestionPallete";
+
+import {
+  MDBCard,
+  MDBCardHeader,
+  MDBCardBody,
+  MDBBtn,
+  MDBRow,
+  MDBCol
+} from "mdbreact";
 
 const Quiz = () => {
   //const { qtnAnswered, currQuestionIndex } = useSelector(state => state.questionState);
@@ -32,26 +40,18 @@ const Quiz = () => {
 
   return (
     <>
-      <Container>
-        <Row>
-          <Col className="col-8">
-            <h1>Welcome to Quiz App</h1>
-          </Col>
-          <Col className="col-4">
-            <QuizTimer questionsData={questionsData}/>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <QuestionBoard questionsData={questionsData} />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <QuestionPallete noOfQuestions={questionsData.length} />
-          </Col>
-        </Row>
-      </Container>
+      <MDBRow>
+        <MDBCol md="9">
+          <QuestionBoard questionsData={questionsData} />
+        </MDBCol>
+
+        <MDBCol md="3">
+          <MDBRow>
+            <QuizTimer totalTimeInSecs={10 * 60} />
+            <QuestionPallete noOfQuestions={questionsData.length}/>
+          </MDBRow>
+        </MDBCol>
+      </MDBRow>
     </>
   );
 };

@@ -1,5 +1,19 @@
 import React, { useRef, useEffect } from "react";
-import { Jumbotron, Button, FormGroup, Label, Input } from "reactstrap";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import {
+  MDBIcon,
+  MDBCard,
+  MDBCardHeader,
+  MDBCardBody,
+  MDBCardFooter,
+  MDBBtn,
+  MDBRow,
+  MDBCol
+} from "mdbreact";
 import { useSelector, useDispatch } from "react-redux";
 import {
   questionAnswered,
@@ -7,7 +21,6 @@ import {
 } from "../../store/Actions/QuestionBoardActions";
 
 const QuestionBoard = ({ questionsData }) => {
-  //const [currQuestionIndex, setCurrQuestionIndex] = useState(0);
   const dispatch = useDispatch();
   const radioRef = useRef(null);
   const { qtnAnswered, currQuestionIndex } = useSelector(
@@ -19,13 +32,16 @@ const QuestionBoard = ({ questionsData }) => {
     console.log("questionsData", questionsData);
     let radiobtns = document.querySelectorAll("div.answers label input");
     const index = qtnAnswered.findIndex(obj => obj.qid === qid);
-    if (index > -1)
+    if (index > -1) {
       radiobtns.forEach((option, i) =>
         i + 1 === qtnAnswered[index].optionAnswered
           ? (option.checked = true)
           : (option.checked = false)
       );
-    else radiobtns.forEach((option, i) => (option.checked = false));
+    }
+    else{
+      radiobtns.forEach((option, i) => (option.checked = false));
+    } 
   });
 
   const updateQtnAnswered = (qid, optAnswered) => {
@@ -54,43 +70,55 @@ const QuestionBoard = ({ questionsData }) => {
   // };
 
   return (
-    <>
-      <Jumbotron>
-        <Label>
-          Question {<b>{currQuestionIndex + 1}</b>} of{" "}
-          {<b>{questionsData.length}</b>}
-        </Label>
-        <h4>{question}:</h4>
-        <hr className="my-2" />
-        <div ref={radioRef} className="answers" tag="fieldset">
-          {options.map((option, i) => (
-            <FormGroup key={i} check>
-              <Label check>
-                <Input
-                  id={`option_${i + 1}_${qid}`}
-                  type="radio"
-                  name={`option_${i + 1}_${qid}`}
-                  onChange={() => updateQtnAnswered(qid, i + 1)}
-                />
-                {option}
-              </Label>
-            </FormGroup>
-          ))}
-        </div>
-        <hr className="my-2" />
-        <div>
-          <Button className="mr-3" color="primary" onClick={prevQuestion}>
-            Previous
-          </Button>
-          <Button className="mr-3" color="primary" onClick={resetQuestion}>
-            Reset
-          </Button>
-          <Button className="mr-3" color="primary" onClick={nextQuestion}>
-            Next
-          </Button>
-        </div>
-      </Jumbotron>
-    </>
+    <MDBCard>
+      <MDBCardHeader color="primary-color" tag="h3">
+        Question {<b>{currQuestionIndex + 1}</b>} of{" "}
+        {<b>{questionsData.length}</b>}
+      </MDBCardHeader>
+      <MDBCardBody className="pb-4">
+        <FormControl component="fieldset">
+          <FormLabel component="legend">
+            <h3>{question}:</h3>
+          </FormLabel>
+          <RadioGroup
+            aria-label="quiz-option"
+            name="quiz-option"
+            defaultValue=""
+          >
+            {options.map((option, index) => (
+              <FormControlLabel
+                key={index}
+                value={index + 1}
+                id={`option_${index + 1}_${qid}`}
+                name={`option_${index + 1}_${qid}`}
+                control={ <Radio/> }
+                onChange={() => updateQtnAnswered(qid, index + 1)}
+                label={option}
+              />
+            ))}
+          </RadioGroup>
+        </FormControl>
+      </MDBCardBody>
+
+      <MDBCardFooter color="primary-color">
+        <MDBRow between>
+          <MDBCol size="auto">
+            <MDBBtn color="indigo" disabled={currQuestionIndex === 0} onClick={prevQuestion}>
+              <MDBIcon icon="chevron-left" className="mr-1" />
+              PREVIOUS
+            </MDBBtn>
+            <MDBBtn color="indigo" onClick={resetQuestion}>Reset</MDBBtn>
+            <MDBBtn color="indigo" disabled={currQuestionIndex === (questionsData.length - 1)} onClick={nextQuestion}>
+              NEXT
+              <MDBIcon icon="chevron-right" className="ml-1" />
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="auto">
+            <MDBBtn color="indigo">Finish Now</MDBBtn>
+          </MDBCol>
+        </MDBRow>
+      </MDBCardFooter>
+    </MDBCard>
   );
 };
 

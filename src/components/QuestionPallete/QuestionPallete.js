@@ -1,14 +1,19 @@
-import React , {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { changeQuestion } from "../../store/Actions/QuestionBoardActions";
+import {
+  MDBCard,
+  MDBCardHeader,
+  MDBCardBody,
+  MDBBtn,
+  MDBRow,
+  MDBCol
+} from "mdbreact";
 
-const QuestionPallete = ({noOfQuestions}) => {
-  
+const QuestionPallete = ({ noOfQuestions }) => {
   const dispatch = useDispatch();
-  const { currQuestionIndex } = useSelector(
-    state => state.questionState
-  );
+  const { currQuestionIndex } = useSelector(state => state.questionState);
 
   const prevQuestion = () => {
     if (currQuestionIndex !== 0) {
@@ -41,30 +46,124 @@ const QuestionPallete = ({noOfQuestions}) => {
     );
   }
 
-  useEffect(() => {
-    
-  },[]);
+  useEffect(() => {}, []);
 
   return (
-    <>
-      <Pagination size="lg" aria-label="Page navigation example">
-        <PaginationItem>
-          <PaginationLink first onClick={() => dispatch(changeQuestion(0))} />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink previous onClick={prevQuestion} />
-        </PaginationItem>
-
-        {PaginationElemnets}
-
-        <PaginationItem>
-          <PaginationLink next onClick={nextQuestion} />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink last onClick={() => dispatch(changeQuestion(noOfQuestions - 1))} />
-        </PaginationItem>
-      </Pagination>
-    </>
+    <MDBCard className="text-center w-100 justify-content mt-4">
+      <MDBCardHeader color="primary-color">
+        <strong>Question Pallete</strong>
+      </MDBCardHeader>
+      <MDBCardBody>
+        <MDBRow center>
+          <MDBCol size="2">
+            <MDBBtn color="success" size="sm">
+              1
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="danger" size="sm">
+              2
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="success" size="sm">
+              3
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="success" size="sm">
+              4
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="warning" size="sm">
+              5
+            </MDBBtn>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow center>
+          <MDBCol size="2">
+            <MDBBtn color="success" size="sm">
+              6
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="success" size="sm">
+              7
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="danger" size="sm">
+              8
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="warning" size="sm">
+              9
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="danger" size="sm">
+              10
+            </MDBBtn>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow center>
+          <MDBCol size="2">
+            <MDBBtn color="danger" size="sm">
+              11
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="success" size="sm">
+              12
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="blue-grey" size="sm">
+              13
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="blue-grey" size="sm">
+              14
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="blue-grey" size="sm">
+              15
+            </MDBBtn>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow center>
+          <MDBCol size="2">
+            <MDBBtn color="blue-grey" size="sm">
+              16
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="blue-grey" size="sm">
+              17
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="blue-grey" size="sm">
+              18
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="blue-grey" size="sm">
+              19
+            </MDBBtn>
+          </MDBCol>
+          <MDBCol size="2">
+            <MDBBtn color="blue-grey" size="sm">
+              20
+            </MDBBtn>
+          </MDBCol>
+        </MDBRow>
+      </MDBCardBody>
+    </MDBCard>
   );
 };
 
