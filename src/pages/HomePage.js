@@ -1,16 +1,22 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   MDBContainer,
-  MDBEdgeHeader,
   MDBCol,
   MDBRow,
   MDBBtn,
-  MDBJumbotron
+  MDBJumbotron,
 } from "mdbreact";
-import SectionContainer from "./../components/sectionContainer";
+import { initQuiz } from "../store/Actions/QuizActions";
 import "./HomePage.css";
+import Quiz from "../components/Quiz/Quiz";
+import Demopage from "../components/Demopage/Demopage";
+import Result from "../components/Result/Result";
 
-const DefaultView = ({switchView}) => {
+const DefaultView = ({ switchView }) => {
+  const dispatch = useDispatch();
+  const defaultUserData = { firstname: "Shashikant", lastname: "Sharma" };
+
   return (
     <>
       <div className="mt-3 mb-5">
@@ -19,18 +25,27 @@ const DefaultView = ({switchView}) => {
             <MDBCol>
               <MDBJumbotron>
                 <h2 className="h1 display-3">Welcome to Quiz App</h2>
-                <p className="lead">
-                  This is a simple hero unit, a simple Jumbotron-style component
-                  for calling extra attention to featured content or
-                  information.
-                </p>
+                <p className="lead"></p>
                 <hr className="my-2" />
-                <p>
-                  It uses utility classes for typgraphy and spacing to space
-                  content out within the larger container.
-                </p>
+                <div className="text-left">
                 <p className="lead">
-                  <MDBBtn color="primary" onClick={() => switchView('view1')}>Let's Start</MDBBtn>
+                <b>Instructions:</b>
+                </p>
+                <ul>
+                  <li>Total number of questions : 20.</li>
+                  <li>Time alloted : 10 minutes.</li>
+                  <li>Each question carry 1 mark, no negative marks.</li>
+                  <li><b>Do not refresh the page, once you have started the quiz.</b></li>
+                  <li>All the best :).</li>
+                </ul>
+                </div>
+                <p className="lead">
+                  <MDBBtn
+                    color="primary"
+                    onClick={() => dispatch(initQuiz(defaultUserData))}
+                  >
+                    Let's Start
+                  </MDBBtn>
                 </p>
               </MDBJumbotron>
             </MDBCol>
@@ -41,62 +56,56 @@ const DefaultView = ({switchView}) => {
   );
 };
 
-const View1 = ({switchView}) => {
+const Quizview = ({ switchView }) => {
   return (
     <>
-      <div className="mt-3 mb-5">
-      <MDBContainer>
-        <MDBRow>
-        <h2 className="h1 display-3">View 1</h2>
-          <p className="lead">
-            <MDBBtn color="primary" onClick={() => switchView('view2')}>Let's Start</MDBBtn>
-          </p>
-          <MDBCol lg="8">col-lg-8</MDBCol>
-          <MDBCol lg="4">col-lg-4</MDBCol>
-        </MDBRow>
-      </MDBContainer>
-      </div>
+      <Quiz />
+      {/* <Demopage /> */}
     </>
   );
 };
 
-const View2 = ({switchView}) => {
+const Resultview = ({ resultData }) => {
   return (
     <>
-      <div className="mt-3 mb-5">
-        <MDBContainer className="mt-5 text-center">
-          <MDBRow>
-            <MDBCol>
-              <MDBJumbotron>
-                <h2 className="h1 display-3">View 2</h2>
-                <p className="lead">
-                  <MDBBtn color="primary" onClick={() => switchView('default')}>Let's Start</MDBBtn>
-                </p>
-              </MDBJumbotron>
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-      </div>
+      {resultData && (
+        <>
+          <h1 className="text-center">Welcome to Result page</h1>
+          <Result resultData={resultData} />
+        </>
+      )}
     </>
   );
 };
 
 const HomePage = () => {
-  const [renderView, setRenderView] = useState(0);
+  //const [renderView, setRenderView] = useState(null);
+  const dispatch = useDispatch();
+  const { isQuizStarted, isQuizFinished, resultData, quizDurationInSecs } = useSelector((state) => state.quizState);
+  const defaultUserData = { firstname: "Shashikant", lastname: "Sharma" };
+  
+  let localData = localStorage.getItem("quizData");
+  let prevQuizStarting = localData ? JSON.parse(localData).startTime : null;
+  prevQuizStarting = new Date(prevQuizStarting);
+  // console.log("prevQuizStarting",prevQuizStarting ); 
+  let currenTime = new Date();
+  let quizTimeDiff = ((currenTime - prevQuizStarting) / 1000);
+  // console.log("quizTimeDiff",quizTimeDiff); 
+  const isQuizContinuing = (quizTimeDiff <= parseFloat(quizDurationInSecs)) ? true : false;
+  // console.log("currenTime",currenTime ); 
+  // console.log("isQuizContinuing",isQuizContinuing ); 
 
-  const switchView = (view) => {
-    setRenderView(view);
+  if (isQuizStarted &&  isQuizFinished && resultData) {
+    // console.log("1st condition called"); 
+    return <Resultview resultData={resultData} />;
   }
-
-  switch (renderView) {
-    case 'view1':
-      return <View1 switchView={switchView} />;
-    case 'view2':
-      return <View2 switchView={switchView} />;
-    default:
-      console.log('default called');
-      
-      return <DefaultView switchView={switchView} />;
+   else if (isQuizStarted) { 
+    //console.log("2nd condition called"); 
+    //dispatch(initQuiz(defaultUserData));
+    return <Quizview  />;
+  } else {
+    console.log("3rd condition called"); 
+    return <DefaultView />;
   }
 };
 

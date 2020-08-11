@@ -15,8 +15,9 @@ export const questionAnswered = (qid, optAnswered) => (dispatch, getState) => {
         newQtnAnsweredArr[index] = qtnAnsweredObj;
     else 
         newQtnAnsweredArr.push(qtnAnsweredObj);
-
-    dispatch({ type: 'QTN_ANSWERED' , qtnAnswered: newQtnAnsweredArr} );
+    console.log('newQtnAnsweredArr',newQtnAnsweredArr);
+    
+    dispatch({ type: 'QTN_ANSWERED' , newQtnAnsweredArr: newQtnAnsweredArr} );
 }
 
 export const changeQuestion = (qid) => (dispatch) => {

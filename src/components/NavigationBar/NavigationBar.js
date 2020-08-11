@@ -1,5 +1,6 @@
 
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   MDBIcon,
   MDBDropdown,
@@ -16,11 +17,18 @@ import {
 } from "mdbreact";
 
 const NavigationBar = () => {
+  const history = useHistory();
   const [collapse, setCollapse] = useState(false);
   const [isWideEnough, setIsWideEnough] = useState(false);
 
   const toggleNavBar = () => {
     setCollapse(!collapse);
+  };
+
+  const logout = () => {
+    history.push({
+      pathname: "/login",
+    });
   };
 
   return (
@@ -32,32 +40,9 @@ const NavigationBar = () => {
             <MDBCollapse isOpen={collapse} navbar>
               <MDBNavbarNav right>
                 <MDBNavItem active>
-                  <MDBNavLink to="#">Home</MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink to="#">Link</MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink to="#">Profile</MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBDropdown>
-                    <MDBDropdownToggle nav caret>
-                      <MDBIcon icon="user" />
-                    </MDBDropdownToggle>
-                    <MDBDropdownMenu className="dropdown-default">
-                      <MDBDropdownItem href="#!">Action</MDBDropdownItem>
-                      <MDBDropdownItem href="#!">
-                        Another Action
-                      </MDBDropdownItem>
-                      <MDBDropdownItem href="#!">
-                        Something else here
-                      </MDBDropdownItem>
-                      <MDBDropdownItem href="#!">
-                        Something else here
-                      </MDBDropdownItem>
-                    </MDBDropdownMenu>
-                  </MDBDropdown>
+                  <MDBNavLink to="/login" onClick={logout} >
+                    Log Out
+                  </MDBNavLink>
                 </MDBNavItem>
               </MDBNavbarNav>
             </MDBCollapse>

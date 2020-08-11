@@ -1,85 +1,108 @@
-import React, { useEffect } from "react";
-import {
-  Container,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading,
-  ListGroupItemText
-} from "reactstrap";
-import { FaCheck } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import questionsData from "../../questionsData";
+import {
+  MDBTypography,
+  MDBIcon,
+  MDBBtn,
+  MDBModal,
+  MDBCard,
+  MDBCardHeader,
+  MDBCardBody,
+} from "mdbreact";
 
-const Result = () => {
-  const { qtnAnswered } = useSelector(state => state.questionState);
-
-  const mergedList = (arr1, arr2) =>
-    arr1.map(a1 => {
-      Object.assign(a1, { optionAnswered: "na" });
-      arr2.forEach(a2 => {
-        if (a1.qid === a2.qid) Object.assign(a1, a2);
-      });
-      return a1;
-    });
-
-  let answerStatus;
-
-  const checkAnswerStatus = (optionAnswered, correct_answer) => {
-    console.log("sdgdgdfg");
-    if (optionAnswered === "na") return optionAnswered;
-    if (optionAnswered === correct_answer) return "Correct";
-    else return "Wrong";
+const Result = ({ resultData }) => {
+  const [showModal, setShowModal] = useState(true);
+  const { qtnAnswered } = useSelector((state) => state.questionState);
+  let correctCounter = 0;
+  const toggleModal = () => {
+    let newModalvalue = !showModal;
+    setShowModal(newModalvalue);
   };
 
-  const resultData = mergedList(questionsData, qtnAnswered);
+  const setnoteColor = (optionAnswered, correct_answer) => {
+    return optionAnswered === correct_answer
+      ? "success"
+      : optionAnswered === "na"
+      ? "secondary"
+      : "danger";
+  };
+
+  const setanswerstatus = (optionAnswered, correct_answer) => {
+    let isCorrect = null;
+    isCorrect =
+      optionAnswered === correct_answer
+        ? true
+        : optionAnswered === "na"
+        ? null
+        : false;
+
+    if (isCorrect) {
+      correctCounter++;
+      return (
+        <>
+          <b>{"Correct!"}</b> <MDBIcon icon="check" className="mr-1" />
+        </>
+      );
+    } else if (isCorrect === false) {
+      return (
+        <>
+          <b>{"Wrong!"}</b> <MDBIcon icon="times" className="mr-1" />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <b>{"Not Answered!"}</b>{" "}
+          <MDBIcon icon="exclamation" className="mr-1" />
+        </>
+      );
+    }
+  };
 
   useEffect(() => {
-    console.log("resultData", resultData);
-  }, []);
+    //console.log("resultData", props.location.resultData);
+  }, [resultData]);
 
   return (
     <>
-      <Container>
-        <h1 className="text-center">Results</h1>
-        <hr />
-        <ListGroup>
-          {resultData &&
-            resultData.map(
-              ({ options, optionAnswered, correct_answer, question }, i) => (
-                <ListGroupItem
-                  key={i}
-                  color={
-                    optionAnswered === correct_answer
-                      ? "success"
-                      : optionAnswered === "na"
-                      ? ""
-                      : "danger"
-                  }
-                >
-                  <ListGroupItemHeading>
-                    {`Q${i + 1}. ${question}`}
-                  </ListGroupItemHeading>
-                  <ListGroupItemText>
-                    <b>You Answered:</b>{" "}
-                    {`${
-                      optionAnswered === "na"
-                        ? "N/A"
-                        : options[optionAnswered - 1]
-                    }`}
-                    <br />
-                    <b>
-                      {optionAnswered === correct_answer
-                        ? "Correct!"
-                        : optionAnswered === "na"
-                        ? "Not Answered!"
-                        : "Wrong !"}
-                    </b>
-                  </ListGroupItemText>
-                </ListGroupItem>
-              )
-            )}
-        </ListGroup>
-      </Container>
+      {resultData &&
+        resultData.map(
+          ({ options, optionAnswered, correct_answer, question }, i) => (
+            <MDBTypography
+              key={i}
+              note
+              noteColor={setnoteColor(optionAnswered, correct_answer)}
+              noteTitle={`Q${i + 1}. ${question}`}
+            >
+              <br />
+              <b>You Answered:</b>{" "}
+              {`${
+                optionAnswered === "na" ? "N/A" : options[optionAnswered - 1]
+              }`}
+              <br />
+              {setanswerstatus(optionAnswered, correct_answer)}
+            </MDBTypography>
+          )
+        )}
+
+      <MDBModal
+        isOpen={showModal}
+        toggle={toggleModal}
+        backdrop={true}
+        centered
+      >
+        <MDBCard className="text-center">
+          <MDBCardHeader color="success-color">
+            <h3>Congratulations...!</h3>
+          </MDBCardHeader>
+          <MDBCardBody>
+            <h5>{`You Scored ${correctCounter}/${resultData.length}`}</h5>
+            <MDBBtn color="success" size="sm" onClick={toggleModal}>
+              Close
+            </MDBBtn>
+          </MDBCardBody>
+        </MDBCard>
+      </MDBModal>
     </>
   );
 };

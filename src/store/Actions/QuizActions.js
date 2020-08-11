@@ -9,7 +9,7 @@ export const initQuiz = (usrData) => (dispatch, getState) => {
   let newData = {
     name: name,
     startTime: quizStartTime,
-    quizDurationInSecs: (1 * 60),
+    quizDurationInSecs: (10 * 60),
     isQuizStarted: true,
   };
 

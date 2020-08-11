@@ -7,7 +7,7 @@ const initialState = {
 const questionReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'QTN_ANSWERED':
-            return Object.assign({}, state, { qtnAnswered: action.qtnAnswered  });
+            return {...state, qtnAnswered: action.newQtnAnsweredArr  };
         case 'NEXT_QTN':
             return Object.assign({}, state, { currQuestionIndex: state.currQuestionIndex + 1 });
         case 'PREV_QTN':
