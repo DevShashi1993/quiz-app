@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   MDBContainer,
@@ -10,7 +10,7 @@ import {
 import { initQuiz } from "../store/Actions/QuizActions";
 import "./HomePage.css";
 import Quiz from "../components/Quiz/Quiz";
-import Demopage from "../components/Demopage/Demopage";
+// import Demopage from "../components/Demopage/Demopage";
 import Result from "../components/Result/Result";
 
 const DefaultView = ({ switchView }) => {
@@ -35,7 +35,6 @@ const DefaultView = ({ switchView }) => {
                   <li>Total number of questions : 20.</li>
                   <li>Time alloted : 10 minutes.</li>
                   <li>Each question carry 1 mark, no negative marks.</li>
-                  <li><b>Do not refresh the page, once you have started the quiz.</b></li>
                   <li>All the best :).</li>
                 </ul>
                 </div>
@@ -56,11 +55,11 @@ const DefaultView = ({ switchView }) => {
   );
 };
 
-const Quizview = ({ switchView }) => {
+const Quizview = ({remainingTimeInSecs}) => {
+  console.log('remainingTimeInSecs' , remainingTimeInSecs);
   return (
     <>
-      <Quiz />
-      {/* <Demopage /> */}
+      <Quiz remainingTimeInSecs={remainingTimeInSecs} />
     </>
   );
 };
@@ -83,28 +82,22 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const { isQuizStarted, isQuizFinished, resultData, quizDurationInSecs } = useSelector((state) => state.quizState);
   const defaultUserData = { firstname: "Shashikant", lastname: "Sharma" };
-  
+
   let localData = localStorage.getItem("quizData");
   let prevQuizStarting = localData ? JSON.parse(localData).startTime : null;
-  prevQuizStarting = new Date(prevQuizStarting);
-  // console.log("prevQuizStarting",prevQuizStarting ); 
+  prevQuizStarting = new Date(prevQuizStarting); 
   let currenTime = new Date();
-  let quizTimeDiff = ((currenTime - prevQuizStarting) / 1000);
-  // console.log("quizTimeDiff",quizTimeDiff); 
-  const isQuizContinuing = (quizTimeDiff <= parseFloat(quizDurationInSecs)) ? true : false;
-  // console.log("currenTime",currenTime ); 
-  // console.log("isQuizContinuing",isQuizContinuing ); 
+  let quizTimeDiff = quizDurationInSecs - ((currenTime - prevQuizStarting) / 1000);
 
-  if (isQuizStarted &&  isQuizFinished && resultData) {
-    // console.log("1st condition called"); 
+  if (isQuizStarted && isQuizFinished && resultData) {
+    console.log("1st condition called"); 
     return <Resultview resultData={resultData} />;
   }
-   else if (isQuizStarted) { 
-    //console.log("2nd condition called"); 
-    //dispatch(initQuiz(defaultUserData));
-    return <Quizview  />;
+   else if (isQuizStarted && !isQuizFinished) { 
+    console.log("2nd condition called"); 
+    return <Quizview remainingTimeInSecs={quizTimeDiff} />;
   } else {
-    console.log("3rd condition called"); 
+    console.log("Default condition called"); 
     return <DefaultView />;
   }
 };

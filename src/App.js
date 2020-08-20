@@ -1,8 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import ResultPage from "./pages/ResultPage";
-import Signup from "./pages/Signup";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import { createBrowserHistory } from "history";

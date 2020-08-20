@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -51,10 +51,10 @@ const QuestionBoard = ({ questionsData }) => {
     dispatch({ type: "FINISH_QUIZ" });
   };
 
-  useEffect(() => {
-    console.log("questionsData", questionsData);
-    console.log("qtnAnswered", qtnAnswered);
-  }, [qid, qtnAnswered, questionsData]);
+  // useEffect(() => {
+  //   console.log("questionsData", questionsData);
+  //   console.log("qtnAnswered", qtnAnswered);
+  // }, [qid, qtnAnswered, questionsData]);
 
   const updateQtnAnswered = (event) => {
     dispatch(questionAnswered(qid, parseInt(event.target.value)));
@@ -77,8 +77,11 @@ const QuestionBoard = ({ questionsData }) => {
   };
 
   const currQuestionSelectedOpt = () => {
-    let index = qtnAnswered.findIndex((q) => q.qid === qid);
-    return index !== -1 ? qtnAnswered[index].optionAnswered : 0;
+    if(qtnAnswered){
+      let index = qtnAnswered.findIndex((q) => q.qid === qid);
+      return index !== -1 ? qtnAnswered[index].optionAnswered : 0;
+    }
+    else return 0;
   };
 
   return (

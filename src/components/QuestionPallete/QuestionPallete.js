@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { changeQuestion } from "../../store/Actions/QuestionBoardActions";
 import {
   MDBCard,
@@ -17,8 +16,10 @@ const QuestionPallete = ({ questionsData }) => {
   );
 
   const isQtnAnswered = (qtn) => {
-    let index = qtnAnswered.findIndex((q) => q.qid === qtn.qid);
-    return index !== -1 ? true : false;
+    if(qtnAnswered){
+      let index = qtnAnswered.findIndex((q) => q.qid === qtn.qid);
+      return index !== -1 ? true : false;
+    } else return false;
   };
 
   useEffect(() => {}, []);

@@ -2,11 +2,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
-  MDBIcon,
-  MDBDropdown,
-  MDBDropdownToggle,
-  MDBDropdownMenu,
-  MDBDropdownItem,
   MDBNavbar,
   MDBNavbarBrand,
   MDBNavbarNav,

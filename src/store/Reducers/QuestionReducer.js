@@ -1,8 +1,18 @@
 
-const initialState = {
+const newinitialState = {
     qtnAnswered : [],
     currQuestionIndex: 0
 };
+
+
+const localStorageData = localStorage.getItem("quizData");
+
+if(localStorageData) {
+    let localData = JSON.parse(localStorageData);
+    newinitialState.qtnAnswered = localData.qtnAnsweredArr;
+} 
+
+let initialState = newinitialState;
 
 const questionReducer = (state = initialState, action) => {
     switch (action.type) {

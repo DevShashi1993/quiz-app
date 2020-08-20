@@ -5,13 +5,14 @@ import { MDBCard, MDBCardHeader, MDBCardBody, MDBCardFooter, MDBModal,MDBCardTex
 import { finishQuiz } from "../../store/Actions/QuizActions";
 import "./QuizTimer.scss";
 
-const QuizTimer = ({ quizDurationInSecs, questionsData }) => {
+const QuizTimer = ({ quizDurationInSecs, questionsData, remainingTimeInSecs }) => {
   const dispatch = useDispatch();
   const { qtnAnswered } = useSelector((state) => state.questionState);
   const [showFinishModal, setShowFinishModal] = useState(false);
 
   const [timerObj, setTimerObj] = useState({
-    remainingTimeInSecs: quizDurationInSecs,
+    quizDurationInSecs: quizDurationInSecs,
+    remainingTimeInSecs: remainingTimeInSecs,
     remainingTimeInPercent: 0,
     hours: "00",
     minutes: "00",
@@ -48,6 +49,7 @@ const QuizTimer = ({ quizDurationInSecs, questionsData }) => {
       let { hours, minutes, seconds } = secsToHHMMSS(remainingTimeInSecs);
 
       let timer_obj = {
+        quizDurationInSecs: quizDurationInSecs,
         remainingTimeInSecs: remainingTimeInSecs,
         remainingTimeInPercent: remainingTimeInPercent,
         hours: hours,
@@ -62,6 +64,7 @@ const QuizTimer = ({ quizDurationInSecs, questionsData }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       let {
+        quizDurationInSecs,
         remainingTimeInSecs,
         remainingTimeInPercent,
         hours,
@@ -71,6 +74,7 @@ const QuizTimer = ({ quizDurationInSecs, questionsData }) => {
 
       setTimerObj((prevTimerObj) => ({
         ...prevTimerObj,
+        quizDurationInSecs: quizDurationInSecs,
         remainingTimeInSecs: remainingTimeInSecs,
         remainingTimeInPercent: remainingTimeInPercent,
         hours: hours,
