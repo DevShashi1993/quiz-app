@@ -1,4 +1,32 @@
+# Quiz-App 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+Project uses, React, Redux, React-Router, React Bootstrap, MDB React UI Framework
+
+This Project uses browser localStorage as database to store and persist the state.
+
+Also will be using Firebase servers for fetching data (to be implemented).
+
+## Flow
+
+1.User Enter his Name, Email-ID, Qualification
+
+2.Quiz Board appears with the series of questions and its options, which needs to be completed in limited amount of time.
+
+4.User clicks on the options to answer and can goto next/previous question by clicking on next/previous Buttons.
+
+5.User can click on Finish button to finish the quiz, if answered all the questions between the alloted time period.
+
+6.After user answered all questions, a summary of results is presented.
+
+## Installation
+1.Run `git clone https://github.com/DevShashi1993/quiz-app.git`
+
+2.Open repo  `cd quiz-app`
+
+3.Run `yarn install`, to install the module's prerequisites 
+(Note: `yarn` must be installed globally before running this) 
 
 ## Available Scripts
 
@@ -27,42 +55,3 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
